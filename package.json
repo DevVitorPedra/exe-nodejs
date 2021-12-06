@@ -1,0 +1,26 @@
+{
+  "name": "exe-nodejs",
+  "version": "1.0.0",
+  "description": "Repositório para os exercícios de NodeJS do DEVinHouse.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevVitorPedra/exe-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevVitorPedra/exe-nodejs/issues"
+  },
+  "homepage": "https://github.com/DevVitorPedra/exe-nodejs#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.15"
+  }
+}
