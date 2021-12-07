@@ -131,7 +131,6 @@ function getById(id){
     return filtered
 
 }
-
 function converting(string){
     
         let size = string.length;
@@ -142,8 +141,7 @@ function converting(string){
         else if (string[i] >= 'a' && string[i] <= 'z')// Convertendo para uppercase
                res += String.fromCharCode(string.charCodeAt(i) - 32)
         else if (string[i] >= 'A' && string[i] <= 'Z')// Convertendo para lowercase
-               res += String.fromCharCode(string.charCodeAt(i) + 32)
-                    
+               res += String.fromCharCode(string.charCodeAt(i) + 32)         
         }
     return res
 }
