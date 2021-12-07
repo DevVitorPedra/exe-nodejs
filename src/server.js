@@ -1,7 +1,8 @@
 const { ESRCH } = require('constants')
 const express = require('express')
 const fileSystem= require('fs')
-const { sortingItems,generatingWorkingDays, manipulatingData, queryFiltering, createFile, deletingById } = require('./utils')
+const { get } = require('http')
+const { sortingItems, factorial, generatingWorkingDays, manipulatingData, queryFiltering, createFile, deletingById,getById, converting } = require('./utils')
 const app = express()
 app.use(express.json())
 
@@ -98,23 +99,65 @@ app.post('/createfiles',(req,res)=>{
     try {
         if(number<=0 || fileSystem.existsSync(`src/item${number}.json`) ) throw "Nenhum arquivo criado"
 
-        const file = createFile(number)
+       createFile(number)
         const resultado = JSON.parse(fileSystem.readFileSync(`src/item${number}.json`, 'utf8'))
         return res.status(201).send({message:resultado})
     } catch (error) {
         return res.status(403).send({message:error})
     }
-    
-    
 })
 
 //exe-07
 
 app.delete('/delete/:id', (req,res)=>{
     try {
-        const { id } = req.body
+        const { id } = req.params
     const data = deletingById(id)
     return res.status(200).send({message:data})
+    } catch (error) {
+        return res.status(404).send({message:error})
+    }
+    
+})
+
+//exe-08
+
+app.get('/factorial',(req,res)=>{
+    
+    const { number } = req.query
+    console.log(number)
+    try {
+           const resultado = factorial(parseInt(number))
+    return res.status(200).send({Fatorial:`fatorial de ${number} é ${resultado}`})
+    } catch (error) {
+            return res.status(404).send({message:error})
+    }
+ 
+})
+
+//exe-09
+app.get('/returningdata/:id', (req,res)=>{
+        
+        const { id } = req.params
+        try {
+           
+             const resultado = getById(id)
+             return res.status(200).send({message: resultado[0].name})
+        } catch (error) {
+            return res.status(404).send({message:error})
+            
+        }
+       
+
+})
+
+//exe-10
+app.post('/convertingstring', (req,res)=>{
+    const { string } = req.body
+    console.log(string)
+    try {
+        const result = converting(string)
+    return res.status(200).send({message:result})
     } catch (error) {
         return res.status(404).send({message:error})
     }

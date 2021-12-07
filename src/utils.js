@@ -94,13 +94,60 @@ function queryFiltering(agemax=140,agemin=0,state=null,job=null){
 }
 function deletingById(id){
     const existingData = JSON.parse(fileSystem.readFileSync('src/'+'user.json', 'utf8'))
+    console.log(id)
     const filtered = existingData.filter(element=>{
-        if(element!==null){
+        if(element.id!=id){
             return element
         }
     })
+    if(existingData.length===filtered.length){
+        throw "Id inexistente"
+    }
+    console.log('ainda assim')
+    fileSystem.writeFileSync('src/'+'user.json',JSON.stringify(filtered))
     return filtered
 }
+function factorial(number){
+    console.log(typeof(number))
+    if(number<1) throw "Número invalido"
+    for(let i = number-1; i>0; i--){
+        number*=i 
+    }
+    return number
+}
+
+function getById(id){
+    const existingData = JSON.parse(fileSystem.readFileSync('src/'+'user.json', 'utf8'))
+    console.log(id)
+    const filtered = existingData.filter(element=>{
+        if(element.id==id){
+            return element
+        }
+    })
+    console.log(filtered.length)
+    if(filtered.length===0){
+        throw "Id inexistente"
+    }
+    return filtered
+
+}
+
+function converting(string){
+    
+        let size = string.length;
+        let res =''
+        for (let i = 0; i < size; i++){ 
+             if(string[i]==' ')res +=' '
+        else if(string[i]==',') res+=',' 
+        else if (string[i] >= 'a' && string[i] <= 'z')// Convertendo para uppercase
+               res += String.fromCharCode(string.charCodeAt(i) - 32)
+        else if (string[i] >= 'A' && string[i] <= 'Z')// Convertendo para lowercase
+               res += String.fromCharCode(string.charCodeAt(i) + 32)
+                    
+        }
+    return res
+}
+
 module.exports={
     sortingItems,
     generatingWorkingDays,
@@ -109,5 +156,9 @@ module.exports={
     createFile,
     manipulatingData,
     queryFiltering,
-    deletingById
+    deletingById,
+    factorial,
+    getById,
+    converting
+
 }
