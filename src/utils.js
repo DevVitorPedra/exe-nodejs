@@ -1,25 +1,6 @@
 const fileSystem = require('fs')
 
-function sortingItems(list,pos=0){
-    const first = list[0]
-    const position = list[pos]
 
-   
-    const processedList = list.map((element,idx)=>{
-        
-        if(idx==0){
-            return position
-        }else
-        if(idx==pos){
-             return first
-        }else{
-        return element
-        }
-            
-    })
-    return processedList
-
-}
 function generatingWorkingDays(month){
     const monthDays = getDaysOfTheMonth(month)
     const workingDaysArray = []
@@ -32,7 +13,6 @@ function generatingWorkingDays(month){
         }
     }
     return workingDaysArray
-
 }
 function getDaysOfTheMonth(num){
     return new Date(2021,num,0).getDate()
@@ -64,33 +44,21 @@ function manipulatingData(data, id){
     if(data!==existingJson[id]){
         existingJson[id] = data
         return existingJson
-    }
-    
-    
+    }  
 }
 
 function queryFiltering(agemax=140,agemin=0,state=null,job=null){
     console.log('query filtering')
     const existingJson = JSON.parse(fileSystem.readFileSync('src/'+'user.json', 'utf8'))
     const filtered = existingJson.filter((element)=>{    
-        if(element.age<=agemax && element.age>=agemin ){
+        if((element.age<=agemax && element.age>=agemin)
+        &&(element.state===state || state===null)
+        &&(element.job===job || job===null)){
             return element
         }
     })
-    const stateFiltered = filtered.filter(element=>{
-     
-        if(element.state===state || state===null){
-            return element
-        }
-    })
-    const jobFiltered = stateFiltered.filter(element=>{
-       
-        if(element.job===job || job===null){
-            return element
-        }
-    })
-  
-    return jobFiltered
+  return filtered
+    
 }
 function deletingById(id){
     const existingData = JSON.parse(fileSystem.readFileSync('src/'+'user.json', 'utf8'))
@@ -115,7 +83,6 @@ function factorial(number){
     }
     return number
 }
-
 function getById(id){
     const existingData = JSON.parse(fileSystem.readFileSync('src/'+'user.json', 'utf8'))
     console.log(id)
@@ -129,7 +96,6 @@ function getById(id){
         throw "Id inexistente"
     }
     return filtered
-
 }
 function converting(string){
     
@@ -158,5 +124,4 @@ module.exports={
     factorial,
     getById,
     converting
-
 }

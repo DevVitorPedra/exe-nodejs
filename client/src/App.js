@@ -1,9 +1,13 @@
-
-
+import Header from "./components/Header/Header";
+import Display from "./components/Display/Display";
+import { BrowserRouter as Router } from 'react-router-dom'
 function App() {
   return (
     <div className="App">
-    <p>Damn, my boy still goin'!! get serious, my boy</p>
+      <Router>
+        <Header />
+        <Display />
+      </Router>
     </div>
   );
 }

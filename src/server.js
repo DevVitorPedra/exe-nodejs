@@ -1,27 +1,38 @@
-const { ESRCH } = require('constants')
+
 const express = require('express')
 const fileSystem= require('fs')
+const cors = require('cors')
 const { get } = require('http')
 const { sortingItems, factorial, generatingWorkingDays, manipulatingData, queryFiltering, createFile, deletingById,getById, converting } = require('./utils')
 const app = express()
 app.use(express.json())
+app.use(cors())
 
-app.get('/')
+
 app.listen(5000,()=>{
     console.log("'rodando na porta 5000'")
 })
 
 //exe01
 app.patch('/sorting',(req,res)=>{
-    try {
-      const { list } = req.body
-      const { pos } = req.query
-      if(pos>list.length-1) throw 'Posição inexistente' ;
-      const sorted = sortingItems(list,pos)
-      return res.status(200).json({list:sorted})
-    } catch (Error) {
-       console.log(Error)
-        return res.status(404).json({"erro":Error})
+  if(fileSystem.lstatSync('src/'+'user.json').isFile()){
+      const { name } = req.params
+      const users = JSON.parse(fileSystem.readFileSync('src/'+'user.json','utf-8'))
+      const findUser = users.find(user => user.name===name)
+        if(!findUser){
+            return res.status(400).send({message:"Usuário inexistente"})
+        }
+            const [firstUser] = users
+            const reOrderUsers = users.map(item=>{
+                if(item.id===findUser.id){
+                    return findUser
+                }
+                if(item.id ===firstUser.id){
+                    return firstUser
+                }
+                return item
+            })
+      return res.status(200).send({message:users})
     }
 })
 //exe02
@@ -84,6 +95,10 @@ app.put('/updating/:id', (req,res)=>{
 //exe-05
 app.get('/filtered', (req,res)=>{
     const { agemax, agemin, state, job } = req.query
+    const existKeys = Object.keys(req.query).map((item)=>{
+        return { [item]:req.query[item]}
+        
+      })
     try {
         const filteredData =  queryFiltering(agemax,agemin,state,job)
         if(filteredData.length===0) throw "nenhum item corresponde a pesquisa"
