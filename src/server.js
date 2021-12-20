@@ -32,7 +32,7 @@ app.patch('/sorting',(req,res)=>{
                 }
                 return item
             })
-      return res.status(200).send({message:users})
+      return res.status(200).send({message:reOrderUsers})
     }
 })
 //exe02
